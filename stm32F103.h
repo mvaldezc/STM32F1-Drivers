@@ -1,13 +1,11 @@
-/********************************************************
- * @file stm32f103.h
- * @brief Standard peripheral library
+/***********************************************************************
+ * @file	:	stm32f103.h
+ * @brief 	:	Standard peripheral library
+ * @authors	:	Marco Valdez
+ * 				David Morales
+ * 				Gerardo Derrant
  *
- * @authors:
- * 		Derrant
- * 		Morales
- * 		Valdez
- *
- *******************************************************/
+ ***********************************************************************/
 
 
 #ifndef STM32F103_H_
@@ -27,6 +25,7 @@
 #define GPIOC_BASE			((uint32_t) 0x40011000)
 #define GPIOB_BASE			((uint32_t) 0x40010C00)
 #define GPIOA_BASE			((uint32_t) 0x40010800)
+#define TIM2_BASE			((uint32_t) 0x40000000)
 #define TIM3_BASE			((uint32_t) 0x40000400)
 #define TIM4_BASE			((uint32_t) 0x40000800)
 

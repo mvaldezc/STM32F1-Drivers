@@ -1,23 +1,21 @@
-/********************************************************
- * @file LED.c
- * @brief LED library
- * @authors:
- * 		Derrant
- * 		Morales
- * 		Valdez
+/***********************************************************************
+ * @file	:	LED.c
+ * @brief 	:	LED library
+ * 				Using the built-in LED.
+ * @author	:	Marco Valdez
  *
- *******************************************************/
+ ***********************************************************************/
 
 #include "LED.h"
 
-void LED_config(){
+void led_config(){
 
 	// Enable Port C
 	RCC->APB2ENR |= (1 << 4);
 
 	// Clean and configure pin PC13 as output mode 50 Mhz
 	GPIOC->CRH &= (0xFF0FFFFF);
-	GPIOC->CRH |= (0x0001<<20);
+	GPIOC->CRH |= (1 << 20);
 
 	/*CRH REGISTER For each PIN:
 
@@ -41,7 +39,7 @@ void LED_config(){
 	 */
 }
 
-void LED(const char state){
+void led(const char state){
 	switch(state){
 	case 0:
 		GPIOC->ODR |= (1 << 13);
@@ -51,6 +49,6 @@ void LED(const char state){
 	}
 }
 
-void LED_toggle(){
+void led_toggle(){
 	GPIOC->ODR ^= (1 << 13);
 }

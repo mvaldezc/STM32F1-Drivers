@@ -1,12 +1,10 @@
-/********************************************************
- * @file LED.h
- * @brief LED library
- * @authors:
- * 		Derrant
- * 		Morales
- * 		Valdez
+/***********************************************************************
+ * @file	:	LED.h
+ * @brief 	:	LED library
+ * 				Using the built-in LED.
+ * @author	:	Marco Valdez
  *
- *******************************************************/
+ ***********************************************************************/
 
 #ifndef LED_H_
 #define LED_H_
@@ -20,7 +18,7 @@
  *
  * @return void
  */
-void LED_config();
+void led_config();
 
 /**
  * @brief Activate built-in LED for bluepill
@@ -33,7 +31,7 @@ void LED_config();
  *
  * @return void
  */
-void LED(const char state);
+void led(const char state);
 
 /**
  * @brief Toggle built-in LED for bluepill
@@ -42,6 +40,6 @@ void LED(const char state);
  *
  * @return void
  */
-void LED_toggle();
+void led_toggle();
 
 #endif /* LED_H_ */

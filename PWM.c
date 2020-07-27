@@ -1,10 +1,10 @@
-/********************************************************
- * @file PWM.c
- * @brief PWM library
- * 		Using GPIOA7 for PWM support.
- * @author Marco Valdez
+/***********************************************************************
+ * @file	:	PWM.c
+ * @brief 	:	PWM library
+ * 				Using GPIOA7 for PWM support.
+ * @author	:	Marco Valdez
  *
- *******************************************************/
+ ***********************************************************************/
 
 #include 	"PWM.h"
 
@@ -43,10 +43,10 @@
 #define		CCR2_VAL	DUTY_CYCLE * (ARR_VAL+1) / 100
 
 
-void PWM_config(){
+void pwm_config(){
 
 	// GPIOA7 Configuration
-	RCC->APB2ENR |= (1 << 2);		//Enable GPIOA Clock
+	RCC->APB2ENR |= (1 << 2);		// Enable GPIOA Clock
 	GPIOA->CRL	 &= ~(0xF << 28); 	// Pin PA7 as Alternate Function mode 50 Mhz
 	GPIOA->CRL	 |= (0xB << 28);
 
@@ -62,32 +62,15 @@ void PWM_config(){
 	TIM3->CR1	 |= (1 << 7);		// ARPE.  Operations on ARR are taken into account at next update event
 	TIM3->CR1	 &= ~(1 << 4);		// DIR.	  Counter in upcounting mode
 	TIM3->CR1	 &= ~(1 << 1);		// UDIS.  Update Event enabled at counter overflow or UG bit
-	TIM3->CCER   |= (1 <<4);		// CC2E.  Enable Channel 2 to be seen in output pin
-
-	/*CCMR1 REGISTER OUTPUT COMPARE MODE  bits:
-		[9:8]	CC2S:		Direction of the channel (input/output) as well as the used input.
-								00	Output
-								01	Input mapped on TI1
-								10	Input mapped on TI2
-								11	Input mapped on TRC (depends on internal trigger)
-
-		[10]	OC2FE:		Fast enable
-
-		[11]	OC2PE:		Output compare 2 preload enable
-								0	TIMx_CCR2 can be written at any time
-								1	Preload register enable. Preload value is loaded in the active register at each update event
-
-		[14:12]	OC2M:		These bits define the behavior of the output reference signal OC2REF
-								110	PWM mode 1 In upcounting, channel 2 is active as long as TIMx_CNT<TIMx_CCR1
-								111 PWM mode 2 In upcounting, channel 2 is inactive as long as TIMx_CNT<TIMx_CCR1
-
-		[15]	OC2CE:		Clear enable
-
-	*/
-
+	TIM3->CCER   |= (1 << 4);		// CC2E.  Enable Channel 2 to be seen in output pin
 }
 
-void Enable_PWM(){
+void enable_pwm(){
 	TIM3->EGR |= (1 << 0);		// UG.  Update generation to restart CNT and load new ARR and CCR2 values
 	TIM3->CR1 |= (1 << 0); 		// CEN. Enable Timer3 PWM
+}
+
+void set_duty(const uint16_t duty_cycle){
+	TIM3->CCR2 = duty_cycle * (TIM3->ARR + 1) / 100;
+	TIM3->EGR |= (1 << 0);
 }
