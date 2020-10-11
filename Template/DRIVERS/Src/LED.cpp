@@ -1,5 +1,5 @@
 /***********************************************************************
- * @file	:	LED.c
+ * @file	:	LED.cpp
  * @brief 	:	LED library
  * 				Using the built-in LED.
  * @author	:	Marco Valdez
@@ -8,14 +8,19 @@
 
 #include "LED.h"
 
-void led_config(){
+LED::LED(){
+	setup();
+}
+
+void LED::setup(){
 
 	// Enable Port C
 	RCC->APB2ENR |= (1 << 4);
-
+	GPIOC->ODR |= (1 << 13);
 	// Clean and configure pin PC13 as output mode 50 Mhz
 	GPIOC->CRH &= (0xFF0FFFFF);
 	GPIOC->CRH |= (1 << 20);
+	state = 0;
 
 	/*CRH REGISTER For each PIN:
 
@@ -37,18 +42,24 @@ void led_config(){
 							10 Alternate function output push-pull
 							11 Alternate function output open-drain
 	 */
+
 }
 
-void led(const char state){
+// Bit Banding was used instead of GPIOC->ODR
+void LED::turn(const char arg){
+	state = arg;
 	switch(state){
 	case 0:
-		GPIOC->ODR |= (1 << 13);
+		PC13 = 1;
 		break;
 	default:
-		GPIOC->ODR &= ~(1 << 13);
+		PC13 = 0;
 	}
 }
 
-void led_toggle(){
+// Inline function for faster performance
+void LED::toggle(){
 	GPIOC->ODR ^= (1 << 13);
+	state ^= 0x1;
 }
+
