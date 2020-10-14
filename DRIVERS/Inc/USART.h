@@ -17,7 +17,7 @@ enum BAUDS : char {B2400,B9600,B19200,B57600,B115200,B250000};
 
 namespace COM {
 
-	class USART : IPrintable
+	class USART : public IPrintable			// base is declared private implicitly
 	{
 		protected:
 			char getChar(void) override;   // override ensures original getchar is virtual
